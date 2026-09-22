@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<title>LCS Screenshot — BPP Unaaha</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --h:#1b4d35;--hm:#276744;--hl:#e6f2eb;
+  --w:#fff;--bg:#f2f5f3;--bd:#cdd9d2;
+  --tx:#101c14;--ts:#46614e;
+  --ok:#1b7a45;--er:#b83232;--or:#b86a00;
+  --r:10px;--sh:0 2px 14px rgba(27,77,53,.09);
+  --sat:env(safe-area-inset-top,0px);
+  --sab:env(safe-area-inset-bottom,0px)
+}
+body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;padding-bottom:var(--sab)}
+
+/* ── HEADER ── */
+header{background:var(--h);color:var(--w);padding:16px 24px;padding-top:calc(16px + var(--sat));display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+.hlogo{width:42px;height:42px;background:var(--hm);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+header h1{font-size:1.05rem;font-weight:700;line-height:1.3}
+header p{font-size:.75rem;opacity:.72;margin-top:1px}
+
+/* ── TABS ── */
+.tabs{display:flex;gap:0;border-bottom:2px solid var(--bd);background:var(--w);padding:0 20px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{padding:13px 20px;font-size:.88rem;font-weight:600;color:var(--ts);border:none;background:none;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:color .15s,border-color .15s;flex-shrink:0;white-space:nowrap}
+.tab.active{color:var(--h);border-bottom-color:var(--h)}
+.tab:hover:not(.active){color:var(--hm)}
+
+/* ── VIEWS ── */
+main{max-width:760px;margin:24px auto;padding:0 14px 60px}
+.view{display:none}.view.active{display:block}
+
+/* ── CARD ── */
+.card{background:var(--w);border:1px solid var(--bd);border-radius:var(--r);box-shadow:var(--sh);padding:22px;margin-bottom:18px}
+.card-title{font-size:.78rem;font-weight:700;color:var(--hm);text-transform:uppercase;letter-spacing:.05em;padding-bottom:10px;border-bottom:2px solid var(--hl);margin-bottom:16px}
+
+/* ── SELECT & INPUT ── */
+select,input[type=text],input[type=password]{width:100%;border:1.5px solid var(--bd);border-radius:7px;padding:10px 12px;font-size:.95rem;color:var(--tx);background:var(--w);appearance:none;-webkit-appearance:none;transition:border-color .15s}
+select:focus,input[type=text]:focus,input[type=password]:focus{outline:none;border-color:var(--hm);box-shadow:0 0 0 3px rgba(39,103,68,.12)}
+.select-wrap{position:relative}
+.select-wrap::after{content:'▾';position:absolute;right:12px;top:50%;transform:translateY(-50%);pointer-events:none;color:var(--ts);font-size:.85rem}
+label{display:block;font-size:.82rem;font-weight:600;color:var(--ts);margin-bottom:6px}
+
+/* ── DROP ZONE ── */
+.drop{border:2px dashed var(--bd);border-radius:8px;padding:22px 14px;text-align:center;cursor:pointer;background:var(--bg);transition:border-color .15s,background .15s;position:relative;min-height:90px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px}
+.drop:hover,.drop.over{border-color:var(--hm);background:var(--hl)}
+.drop input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.drop-icon{font-size:1.6rem}
+.drop-txt{font-size:.82rem;color:var(--ts)}
+.drop-prev{max-width:100%;max-height:120px;object-fit:contain;border-radius:5px;border:1px solid var(--bd);display:none}
+.drop.has .drop-prev{display:block}
+.drop.has .drop-icon,.drop.has .drop-txt{display:none}
+.drop-name{font-size:.75rem;color:var(--ts);margin-top:3px;display:none}
+.drop.has .drop-name{display:block}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 18px;border:none;border-radius:7px;font-size:.88rem;font-weight:600;cursor:pointer;transition:filter .15s,transform .1s;white-space:nowrap}
+.btn:active{transform:scale(.97)}
+.btn:disabled{opacity:.4;cursor:not-allowed;filter:none!important}
+.btn-primary{background:var(--hm);color:var(--w)}.btn-primary:hover{filter:brightness(1.1)}
+.btn-dark{background:var(--h);color:var(--w)}.btn-dark:hover{filter:brightness(1.12)}
+.btn-outline{background:transparent;color:var(--h);border:1.5px solid var(--bd)}.btn-outline:hover{background:var(--hl);border-color:var(--hm)}
+.btn-sm{padding:6px 12px;font-size:.8rem}
+.row-btn{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;align-items:center}
+
+/* ── STATUS GRID ── */
+.status-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;margin-top:4px}
+.status-pill{display:flex;align-items:center;gap:9px;padding:9px 12px;border-radius:7px;border:1px solid var(--bd);background:var(--bg);font-size:.83rem}
+.status-pill.done{border-color:#a5d6b5;background:#f0faf4}
+.s-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.done .s-dot{background:var(--ok)}
+.pending .s-dot{background:#ccc}
+.s-name{font-weight:600;line-height:1.2;flex:1}
+.s-time{font-size:.72rem;color:var(--ts)}
+
+/* ── TABLE ── */
+.tbl-wrap{overflow-x:auto;margin-top:4px;border-radius:8px}
+table{width:100%;border-collapse:collapse;font-size:.84rem}
+th{background:var(--hl);color:var(--h);font-weight:700;padding:9px 10px;text-align:left;border-bottom:2px solid var(--bd)}
+td{padding:8px 10px;border-bottom:1px solid #eef1ee;vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#f7faf8}
+.chip{display:inline-block;padding:2px 9px;border-radius:12px;font-size:.72rem;font-weight:700}
+.chip-ok{background:#e0f5e9;color:#1b7a45}
+
+/* ── FILTER ROW ── */
+.filter-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.filter-row .select-wrap,.filter-row input{flex:1;min-width:140px}
+
+/* ── TOAST ── */
+#toast{position:fixed;bottom:calc(22px + var(--sab));left:50%;transform:translateX(-50%);padding:10px 22px;border-radius:8px;font-size:.87rem;font-weight:600;opacity:0;pointer-events:none;transition:opacity .2s;z-index:9999;color:var(--w);white-space:nowrap}
+#toast.ok{background:var(--ok)}
+#toast.er{background:var(--er)}
+#toast.show{opacity:1}
+
+/* ── LOADING OVERLAY ── */
+#overlay{position:fixed;inset:0;background:rgba(255,255,255,.75);display:none;align-items:center;justify-content:center;z-index:9998;flex-direction:column;gap:12px}
+#overlay.on{display:flex}
+.spinner{width:36px;height:36px;border:4px solid var(--hl);border-top-color:var(--hm);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+#ov-msg{font-size:.88rem;color:var(--h);font-weight:600}
+
+/* ── EMPTY ── */
+.empty{text-align:center;padding:30px 0;color:var(--ts);font-size:.87rem}
+.empty-icon{font-size:2rem;margin-bottom:8px}
+
+/* ── MODAL KONFIRMASI HAPUS ── */
+#konfirm-bg{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9995;display:none;align-items:center;justify-content:center;padding:16px}
+#konfirm-bg.on{display:flex}
+#konfirm-box{background:var(--w);border-radius:12px;padding:24px;max-width:340px;width:100%;box-shadow:0 8px 40px rgba(0,0,0,.3)}
+#konfirm-box h3{font-size:1rem;font-weight:700;color:var(--er);margin-bottom:8px}
+#konfirm-box p{font-size:.85rem;color:var(--ts);margin-bottom:16px;line-height:1.5}
+.konfirm-btn-row{display:flex;gap:10px;justify-content:flex-end}
+.btn-hapus-ok{background:var(--er);color:var(--w);padding:8px 18px;border:none;border-radius:7px;font-weight:600;cursor:pointer;font-size:.88rem}
+.btn-hapus-ok:hover{filter:brightness(1.1)}
+
+/* ── DOWNLOAD PROGRESS ── */
+#dl-progress{position:fixed;bottom:calc(22px + var(--sab));right:22px;background:var(--h);color:var(--w);padding:10px 18px;border-radius:8px;font-size:.83rem;font-weight:600;display:none;z-index:9999}
+
+/* ── MODAL FOTO ── */
+#modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:9990;display:none;align-items:center;justify-content:center;padding:16px}
+#modal-bg.on{display:flex}
+#modal-box{background:var(--w);border-radius:12px;max-width:92vw;max-height:92vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 8px 40px rgba(0,0,0,.35)}
+#modal-header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--bd);gap:12px}
+#modal-judul{font-size:.92rem;font-weight:700;color:var(--h);flex:1;line-height:1.3}
+#modal-sub{font-size:.75rem;color:var(--ts);margin-top:2px}
+.modal-close{width:32px;height:32px;border:none;background:var(--bg);border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.modal-close:hover{background:var(--hl)}
+#modal-body{padding:16px;overflow:auto;display:flex;align-items:center;justify-content:center;min-height:120px}
+#modal-img{max-width:100%;max-height:72vh;object-fit:contain;border-radius:6px;display:none}
+#modal-loading{text-align:center;color:var(--ts);font-size:.85rem}
+#modal-loading .spinner{margin:0 auto 10px}
+#modal-error{color:var(--er);font-size:.85rem;text-align:center;display:none}
+
+/* ── TOMBOL FLOATING (mobile) ── */
+.float-btn-wrap{display:none;position:fixed;bottom:calc(16px + var(--sab));left:14px;right:14px;z-index:90}
+.float-btn-wrap .btn{width:100%;min-height:50px;font-size:1rem;box-shadow:0 4px 16px rgba(27,77,53,.25)}
+
+/* ── PRINT ── */
+@media print{
+  header,.tabs,main>.card:first-child,.filter-row,.row-btn,
+  .no-print,#toast,#overlay,#dl-progress,.float-btn-wrap{display:none!important}
+  .print-page{display:flex!important;flex-direction:column;align-items:center;
+    width:210mm;min-height:297mm;padding:18mm 16mm 14mm;
+    page-break-after:always;page-break-inside:avoid}
+  .print-page:last-child{page-break-after:auto}
+  .pkop{width:100%;border-bottom:2.5px solid #1b4d35;padding-bottom:10px;margin-bottom:20px;display:flex;align-items:center;gap:12px}
+  .pkop-icon{width:40px;height:40px;background:#276744;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+  .pkop h2{font-size:12pt;font-weight:700;color:#1b4d35;margin:0 0 2px}
+  .pkop p{font-size:8pt;color:#46614e;margin:0}
+  .pname{font-size:15pt;font-weight:700;color:#101c14;text-align:center;width:100%;padding-bottom:8px;border-bottom:1px solid #cdd9d2;margin-bottom:14px}
+  .pmeta{font-size:8.5pt;color:#46614e;text-align:center;margin-bottom:14px}
+  .pimg-wrap{width:100%;flex:1;display:flex;align-items:flex-start;justify-content:center}
+  .pimg{max-width:100%;max-height:200mm;object-fit:contain;border:1px solid #cdd9d2;border-radius:5px}
+  .pfooter{margin-top:auto;width:100%;text-align:right;font-size:7pt;color:#aaa;padding-top:8px;border-top:1px solid #eee}
+}
+@media screen{#print-pages{display:none}}
+
+/* ══ MOBILE ══ */
+@media(max-width:600px){
+  header{padding:calc(12px + var(--sat)) 14px 12px;gap:10px}
+  .hlogo{width:36px;height:36px;font-size:17px}
+  header h1{font-size:.92rem}
+  header p{font-size:.7rem}
+
+  .tabs{padding:0 10px}
+  .tab{padding:11px 13px;font-size:.79rem}
+
+  main{margin:12px auto;padding:0 10px calc(76px + var(--sab))}
+
+  .card{padding:14px 12px;margin-bottom:12px}
+  .card-title{font-size:.73rem;margin-bottom:10px;padding-bottom:8px}
+
+  label{font-size:.8rem}
+  select,input[type=text],input[type=password]{font-size:1rem;padding:11px 12px}
+
+  .drop{min-height:120px;padding:24px 14px}
+  .drop-icon{font-size:2rem}
+  .drop-txt{font-size:.84rem}
+
+  /* Sembunyikan tombol normal, tampilkan floating */
+  #btn-row-desktop{display:none!important}
+  .float-btn-wrap{display:block}
+
+  .btn{min-height:44px;padding:10px 14px;font-size:.86rem}
+  .btn-sm{min-height:38px;padding:8px 11px;font-size:.79rem}
+  .row-btn{gap:7px}
+  .row-btn .btn{flex:1}
+
+  .filter-row{flex-direction:column;gap:8px}
+  .filter-row .select-wrap,.filter-row input{min-width:unset;width:100%}
+
+  #btn-pdf,#btn-dl-semua{width:100%;margin-left:0!important}
+
+  .status-grid{grid-template-columns:1fr;gap:6px}
+  .status-pill{padding:10px 12px}
+  .s-name{font-size:.85rem}
+
+  table{font-size:.8rem}
+  th,td{padding:8px 7px}
+  /* Sembunyikan kolom waktu di HP */
+  th:nth-child(4),td:nth-child(4){display:none}
+  /* Kolom foto: stack tombol */
+  td:last-child{display:flex;flex-direction:column;gap:5px;padding:7px}
+  td:last-child .btn-sm{width:100%;justify-content:center}
+
+  /* Modal foto — bottom sheet */
+  #modal-bg{padding:0;align-items:flex-end}
+  #modal-box{border-radius:16px 16px 0 0;max-width:100%;max-height:95vh;width:100%}
+  #modal-header{padding:14px 16px}
+  #modal-body{padding:12px}
+  #modal-img{max-height:75vh}
+
+  /* Modal konfirmasi — bottom sheet */
+  #konfirm-bg{padding:0;align-items:flex-end}
+  #konfirm-box{border-radius:16px 16px 0 0;max-width:100%;width:100%;padding:22px 18px calc(22px + var(--sab))}
+  .konfirm-btn-row{justify-content:stretch}
+  .konfirm-btn-row .btn,.konfirm-btn-row .btn-hapus-ok{flex:1;min-height:46px;text-align:center;justify-content:center}
+
+  #inp-pin{font-size:1.1rem;letter-spacing:.2em}
+
+  #toast{width:calc(100% - 28px);text-align:center;bottom:calc(14px + var(--sab));left:14px;transform:none}
+  #dl-progress{left:14px;right:14px;bottom:calc(14px + var(--sab));text-align:center;width:auto}
+
+  #admin-panel .filter-row{flex-direction:column}
+  /* Admin panel: hapus kolom waktu */
+  #admin-body th:nth-child(4),#admin-body td:nth-child(4){display:none}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hlogo">🌾</div>
+  <div>
+    <h1>Rekap LCS Screenshot</h1>
+    <p>BPP Unaaha — Kabupaten Konawe</p>
+  </div>
+</header>
+
+<div class="tabs">
+  <button class="tab active" onclick="switchTab('input',this)">📤 Input Screenshot</button>
+  <button class="tab" onclick="switchTab('rekap',this)">📋 Rekap & Download</button>
+  <button class="tab" onclick="switchTab('admin',this)">🔐 Admin</button>
+</div>
+
+<main>
+
+  <!-- ════════════ TAB INPUT ════════════ -->
+  <div id="view-input" class="view active">
+
+    <div class="card">
+      <div class="card-title">Form Input LCS Screenshot</div>
+
+      <div style="margin-bottom:14px">
+        <label for="sel-nama">Nama Penyuluh</label>
+        <div class="select-wrap">
+          <select id="sel-nama">
+            <option value="">— Pilih nama Anda —</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <label>Screenshot LCS</label>
+        <div class="drop" id="dz">
+          <input type="file" id="inp-file" accept="image/*"/>
+          <div class="drop-icon">📷</div>
+          <div class="drop-txt">Klik pilih foto atau seret ke sini<br>
+            <span style="font-size:.75rem;opacity:.7">Bisa juga Ctrl+V untuk paste screenshot</span>
+          </div>
+          <img class="drop-prev" id="dz-prev" alt="preview"/>
+          <div class="drop-name" id="dz-name"></div>
+        </div>
+      </div>
+
+      <!-- Tombol desktop (hidden di mobile) -->
+      <div class="row-btn" id="btn-row-desktop">
+        <button class="btn btn-primary" id="btn-kirim" onclick="kirimData()">⬆ Kirim Screenshot</button>
+        <button class="btn btn-outline" onclick="resetInput()">✕ Reset</button>
+      </div>
+    </div>
+
+    <!-- Status hari ini -->
+    <div class="card">
+      <div class="card-title" id="status-title">Status Input Hari Ini</div>
+      <div id="status-grid" class="status-grid">
+        <div class="empty"><div class="empty-icon">⏳</div>Memuat status...</div>
+      </div>
+    </div>
+
+  </div><!-- /view-input -->
+
+  <!-- ════════════ TAB REKAP ════════════ -->
+  <div id="view-rekap" class="view">
+
+    <div class="card no-print">
+      <div class="card-title">Filter Data</div>
+      <div class="filter-row">
+        <div class="select-wrap">
+          <select id="f-nama"><option value="">Semua Penyuluh</option></select>
+        </div>
+        <div class="select-wrap">
+          <select id="f-tgl"><option value="">Semua Tanggal</option></select>
+        </div>
+      </div>
+      <div class="row-btn">
+        <button class="btn btn-primary btn-sm" onclick="muatRekap()">🔍 Tampilkan</button>
+        <button class="btn btn-outline btn-sm" onclick="resetFilter()">✕ Reset</button>
+        <button class="btn btn-outline" id="btn-dl-semua" onclick="downloadSemuaFoto()" style="display:none">⬇ Semua Foto</button>
+        <button class="btn btn-dark" id="btn-pdf" onclick="downloadPDF()" disabled>⬇ Download PDF</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Data Rekap</div>
+      <div id="rekap-body">
+        <div class="empty"><div class="empty-icon">📋</div>Klik "Tampilkan" untuk memuat data.</div>
+      </div>
+    </div>
+
+  </div><!-- /view-rekap -->
+
+  <!-- ════════════ TAB ADMIN ════════════ -->
+  <div id="view-admin" class="view">
+
+    <div class="card">
+      <div class="card-title">🔐 Akses Admin</div>
+      <div style="max-width:320px">
+        <label for="inp-pin">PIN Admin</label>
+        <div style="display:flex;gap:10px">
+          <input type="password" id="inp-pin" placeholder="Masukkan PIN" maxlength="20"
+            style="flex:1" onkeydown="if(event.key==='Enter')aksesAdmin()"/>
+          <button class="btn btn-primary" onclick="aksesAdmin()">Masuk</button>
+        </div>
+        <div id="pin-error" style="color:var(--er);font-size:.8rem;margin-top:6px;display:none">
+          ❌ PIN salah, coba lagi.
+        </div>
+      </div>
+    </div>
+
+    <div id="admin-panel" style="display:none">
+      <div class="card">
+        <div class="card-title">Kelola Data</div>
+        <div class="filter-row">
+          <div class="select-wrap">
+            <select id="af-nama"><option value="">Semua Penyuluh</option></select>
+          </div>
+          <div class="select-wrap">
+            <select id="af-tgl-sel"><option value="">Semua Tanggal</option></select>
+          </div>
+        </div>
+        <div class="row-btn">
+          <button class="btn btn-primary btn-sm" onclick="muatAdmin()">🔍 Tampilkan</button>
+          <button class="btn btn-outline btn-sm" onclick="resetAdmin()">✕ Reset</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Data — Klik 🗑 untuk Hapus</div>
+        <div id="admin-body">
+          <div class="empty"><div class="empty-icon">📋</div>Klik Tampilkan untuk memuat data.</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /view-admin -->
+
+</main>
+
+<!-- Tombol floating (mobile only) -->
+<div class="float-btn-wrap" id="float-kirim-wrap">
+  <button class="btn btn-primary" onclick="kirimData()">⬆ Kirim Screenshot</button>
+</div>
+
+<!-- Download progress -->
+<div id="dl-progress"></div>
+
+<!-- Modal Konfirmasi Hapus -->
+<div id="konfirm-bg">
+  <div id="konfirm-box">
+    <h3>⚠ Konfirmasi Hapus</h3>
+    <p>Anda akan menghapus data screenshot milik:<br>
+      <strong id="konfirm-nama">—</strong><br>
+      Tanggal: <strong id="konfirm-tgl">—</strong><br><br>
+      Data dan foto akan dihapus permanen dari Sheets dan Drive.
+    </p>
+    <div class="konfirm-btn-row">
+      <button class="btn btn-outline btn-sm" onclick="batalHapus()">Batal</button>
+      <button class="btn-hapus-ok" onclick="eksekusiHapus()">Ya, Hapus</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Foto -->
+<div id="modal-bg" onclick="tutupModal(event)">
+  <div id="modal-box">
+    <div id="modal-header">
+      <div>
+        <div id="modal-judul">—</div>
+        <div id="modal-sub">—</div>
+      </div>
+      <button class="modal-close" onclick="tutupModal(null)">✕</button>
+    </div>
+    <div id="modal-body">
+      <div id="modal-loading">
+        <div class="spinner"></div>
+        Memuat foto...
+      </div>
+      <img id="modal-img" alt="screenshot"/>
+      <div id="modal-error">Gagal memuat foto.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Print pages -->
+<div id="print-pages"></div>
+
+<!-- Loading overlay -->
+<div id="overlay"><div class="spinner"></div><div id="ov-msg">Menyimpan data...</div></div>
+
+<!-- Toast -->
+<div id="toast"></div>
+
+<script>
+// ══ STATE ══════════════════════════════════════════
+var PENYULUH     = [];
+var rekapData    = [];
+var pendingB64   = null;
+var pendingMime  = '';
+var pendingFName = '';
+var adminPin     = '';
+var adminDataCache  = [];
+var hapusTargetUid  = '';
+var hapusTargetIdx  = -1;
+
+// ══ INIT ═══════════════════════════════════════════
+window.addEventListener('load', function() {
+  google.script.run
+    .withSuccessHandler(function(list) {
+      PENYULUH = list;
+      isiSelect('sel-nama', list, '— Pilih nama Anda —');
+      isiSelect('f-nama',   list, 'Semua Penyuluh');
+      muatStatus();
+    })
+    .withFailureHandler(function(e){ toast('Gagal memuat daftar penyuluh: '+e.message,'er'); })
+    .getDaftarPenyuluh();
+});
+
+function isiSelect(id, list, placeholder) {
+  var sel = document.getElementById(id);
+  sel.innerHTML = '<option value="">'+placeholder+'</option>';
+  list.forEach(function(n){
+    var o = document.createElement('option');
+    o.value = n; o.textContent = n;
+    sel.appendChild(o);
+  });
+}
+
+// ══ TAB SWITCH ═════════════════════════════════════
+function switchTab(name, el) {
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active')});
+  document.querySelectorAll('.view').forEach(function(v){v.classList.remove('active')});
+  el.classList.add('active');
+  document.getElementById('view-'+name).classList.add('active');
+  // Sembunyikan floating button kecuali di tab input
+  document.getElementById('float-kirim-wrap').style.display =
+    name === 'input' ? '' : 'none';
+  if (name === 'rekap') muatDaftarTanggalLaluRekap();
+}
+
+// ══ TANGGAL HELPERS ════════════════════════════════
+function tanggalHariIni() {
+  var now = new Date();
+  var d   = String(now.getDate()).padStart(2,'0');
+  var m   = String(now.getMonth()+1).padStart(2,'0');
+  var y   = now.getFullYear();
+  return d+'/'+m+'/'+y;
+}
+
+function muatDaftarTanggalLaluRekap() {
+  google.script.run
+    .withSuccessHandler(function(res) {
+      if (!res.ok) { muatRekap(); return; }
+      var sel = document.getElementById('f-tgl');
+      sel.innerHTML = '<option value="">Semua Tanggal</option>';
+      res.data.forEach(function(tgl) {
+        var o = document.createElement('option');
+        o.value = tgl; o.textContent = tgl;
+        sel.appendChild(o);
+      });
+      var hi = tanggalHariIni();
+      sel.value = res.data.indexOf(hi) !== -1 ? hi : '';
+      muatRekap();
+    })
+    .withFailureHandler(function() { muatRekap(); })
+    .getDaftarTanggal();
+}
+
+// ══ FILE INPUT ═════════════════════════════════════
+document.getElementById('inp-file').addEventListener('change', function(){
+  var f = this.files[0]; if (!f) return; bacaFile(f);
+});
+
+var dz = document.getElementById('dz');
+dz.addEventListener('dragover',  function(e){e.preventDefault();dz.classList.add('over')});
+dz.addEventListener('dragleave', function(){dz.classList.remove('over')});
+dz.addEventListener('drop', function(e){
+  e.preventDefault(); dz.classList.remove('over');
+  var f = e.dataTransfer.files[0];
+  if (f && f.type.startsWith('image/')) bacaFile(f);
+});
+document.addEventListener('paste', function(e){
+  var items = e.clipboardData && e.clipboardData.items;
+  if (!items) return;
+  for (var i=0;i<items.length;i++){
+    if (items[i].type.startsWith('image/')){bacaFile(items[i].getAsFile());break}
+  }
+});
+
+function bacaFile(file) {
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var img = new Image();
+    img.onload = function() {
+      var MAKS = 1280, KUALITAS = 0.75;
+      var skala = Math.min(MAKS/img.width, MAKS/img.height, 1);
+      var w = Math.round(img.width*skala), h = Math.round(img.height*skala);
+      var canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      var dataUrl = canvas.toDataURL('image/jpeg', KUALITAS);
+      pendingB64   = dataUrl.split(',')[1];
+      pendingMime  = 'image/jpeg';
+      pendingFName = file.name
+        ? file.name.replace(/\.[^.]+$/,'') + '.jpg'
+        : 'screenshot_' + Date.now() + '.jpg';
+      document.getElementById('dz-prev').src = dataUrl;
+      document.getElementById('dz-name').textContent = pendingFName;
+      dz.classList.add('has');
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+// ══ KIRIM DATA ═════════════════════════════════════
+function kirimData() {
+  var nama = document.getElementById('sel-nama').value;
+  if (!nama)       { toast('Pilih nama terlebih dahulu!','er'); return; }
+  if (!pendingB64) { toast('Screenshot belum dipilih!','er');   return; }
+  overlay(true,'Mengunggah screenshot...');
+  google.script.run
+    .withSuccessHandler(function(res){
+      overlay(false);
+      if (res.ok) {
+        toast('✓ Screenshot '+nama+' berhasil disimpan','ok');
+        resetInput();
+        muatStatus();
+      } else {
+        toast('Gagal: '+res.error,'er');
+      }
+    })
+    .withFailureHandler(function(e){ overlay(false); toast('Error: '+e.message,'er'); })
+    .simpanData({ nama:nama, base64:pendingB64, mimeType:pendingMime, fileName:pendingFName });
+}
+
+function resetInput() {
+  document.getElementById('sel-nama').value = '';
+  document.getElementById('inp-file').value = '';
+  pendingB64 = null; pendingMime = ''; pendingFName = '';
+  document.getElementById('dz-prev').src = '';
+  document.getElementById('dz-name').textContent = '';
+  dz.classList.remove('has');
+}
+
+// ══ STATUS HARI INI ════════════════════════════════
+function muatStatus() {
+  google.script.run
+    .withSuccessHandler(renderStatus)
+    .withFailureHandler(function(e){ toast('Gagal muat status: '+e.message,'er'); })
+    .getStatusHariIni();
+}
+
+function renderStatus(res) {
+  if (!res.ok) { toast('Error: '+res.error,'er'); return; }
+  document.getElementById('status-title').textContent = 'Status Input — ' + res.tanggal;
+  var sudah = res.status.filter(function(s){return s.sudah}).length;
+  var grid  = document.getElementById('status-grid');
+  grid.innerHTML = '';
+  res.status.forEach(function(s){
+    var d = document.createElement('div');
+    d.className = 'status-pill '+(s.sudah?'done':'pending');
+    d.innerHTML = '<div class="s-dot"></div>'
+      +'<div class="s-name">'+esc(s.nama)+'</div>'
+      +(s.sudah?'<div class="s-time">✓</div>':'');
+    grid.appendChild(d);
+  });
+  var info = document.createElement('div');
+  info.style.cssText = 'grid-column:1/-1;font-size:.8rem;color:var(--ts);padding-top:4px';
+  info.textContent = sudah+' dari '+res.status.length+' penyuluh sudah input hari ini.';
+  grid.appendChild(info);
+}
+
+// ══ REKAP ══════════════════════════════════════════
+function muatRekap() {
+  var filter = {
+    nama   : document.getElementById('f-nama').value,
+    tanggal: document.getElementById('f-tgl').value
+  };
+  overlay(true,'Memuat data rekap...');
+  google.script.run
+    .withSuccessHandler(function(res){
+      overlay(false);
+      if (!res.ok){ toast('Error: '+res.error,'er'); return; }
+      rekapData = res.data;
+      renderRekap(res.data);
+    })
+    .withFailureHandler(function(e){overlay(false);toast('Error: '+e.message,'er')})
+    .getAllData(filter);
+}
+
+function resetFilter() {
+  document.getElementById('f-nama').value = '';
+  document.getElementById('f-tgl').value  = '';
+  muatRekap();
+}
+
+function renderRekap(data) {
+  var div = document.getElementById('rekap-body');
+  var btn = document.getElementById('btn-pdf');
+  var btnDl = document.getElementById('btn-dl-semua');
+  if (!data.length) {
+    div.innerHTML = '<div class="empty"><div class="empty-icon">📭</div>Tidak ada data untuk filter ini.</div>';
+    btn.disabled = true;
+    btnDl.style.display = 'none';
+    return;
+  }
+  btn.disabled = false;
+  var namaDipilih = document.getElementById('f-nama').value;
+  btnDl.style.display = namaDipilih ? 'inline-flex' : 'none';
+
+  var html = '<div class="tbl-wrap"><table>'
+    +'<thead><tr><th>#</th><th>Nama Penyuluh</th><th>Tanggal</th><th>Waktu</th><th>Foto</th></tr></thead><tbody>';
+  data.forEach(function(r,i){
+    html += '<tr>'
+      +'<td>'+(i+1)+'</td>'
+      +'<td><strong>'+esc(r.nama)+'</strong></td>'
+      +'<td>'+esc(r.tanggal)+'</td>'
+      +'<td>'+esc(r.waktu)+'</td>'
+      +'<td>'
+      +  '<button class="btn btn-outline btn-sm" onclick="lihatFoto('+i+')">🖼 Lihat</button>'
+      +  '<button class="btn btn-outline btn-sm" onclick="downloadFoto('+i+')" title="Download">⬇</button>'
+      +'</td>'
+      +'</tr>';
+  });
+  html += '</tbody></table></div>';
+  div.innerHTML = html;
+}
+
+// ══ MODAL FOTO ═════════════════════════════════════
+function lihatFoto(idx) {
+  var r = rekapData[idx]; if (!r) return;
+  document.getElementById('modal-judul').textContent = r.nama;
+  document.getElementById('modal-sub').textContent   = r.tanggal+' · '+r.waktu;
+  document.getElementById('modal-img').style.display    = 'none';
+  document.getElementById('modal-error').style.display  = 'none';
+  document.getElementById('modal-loading').style.display = 'block';
+  document.getElementById('modal-bg').classList.add('on');
+  document.body.style.overflow = 'hidden';
+  google.script.run
+    .withSuccessHandler(function(res){
+      document.getElementById('modal-loading').style.display = 'none';
+      if (res.ok) {
+        var img = document.getElementById('modal-img');
+        img.src = 'data:'+res.mime+';base64,'+res.base64;
+        img.style.display = 'block';
+      } else {
+        document.getElementById('modal-error').style.display = 'block';
+      }
+    })
+    .withFailureHandler(function(){
+      document.getElementById('modal-loading').style.display = 'none';
+      document.getElementById('modal-error').style.display   = 'block';
+    })
+    .getImageBase64(r.url);
+}
+
+function tutupModal(e) {
+  if (e && e.target !== document.getElementById('modal-bg')) return;
+  document.getElementById('modal-bg').classList.remove('on');
+  document.getElementById('modal-img').src = '';
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', function(e){
+  if (e.key === 'Escape') tutupModal(null);
+});
+
+// ══ DOWNLOAD PDF ═══════════════════════════════════
+function downloadPDF() {
+  if (!rekapData.length) { toast('Tidak ada data','er'); return; }
+  overlay(true,'Memuat gambar untuk PDF...');
+  document.getElementById('btn-pdf').disabled = true;
+  var pending = rekapData.map(function(r){ return {item:r,b64:null,mime:null}; });
+  var total   = pending.length;
+  function muatGambar(idx) {
+    if (idx >= total) {
+      bangunPrintPages(pending);
+      overlay(false);
+      document.getElementById('btn-pdf').disabled = false;
+      setTimeout(function(){ window.print(); }, 200);
+      return;
+    }
+    document.getElementById('ov-msg').textContent = 'Memuat gambar '+(idx+1)+' dari '+total+'...';
+    google.script.run
+      .withSuccessHandler(function(res){
+        if (res.ok){ pending[idx].b64=res.base64; pending[idx].mime=res.mime; }
+        muatGambar(idx+1);
+      })
+      .withFailureHandler(function(){ muatGambar(idx+1); })
+      .getImageBase64(pending[idx].item.url);
+  }
+  muatGambar(0);
+}
+
+function bangunPrintPages(items) {
+  var tgl = new Date().toLocaleDateString('id-ID',{day:'2-digit',month:'long',year:'numeric'});
+  var pp  = document.getElementById('print-pages');
+  pp.innerHTML = '';
+  items.forEach(function(p,i){
+    var imgTag = p.b64
+      ? '<img class="pimg" src="data:'+p.mime+';base64,'+p.b64+'" alt="screenshot"/>'
+      : '<div style="padding:40px;text-align:center;color:#aaa;border:1px dashed #ccc;border-radius:6px">Gambar tidak tersedia</div>';
+    var page = document.createElement('div');
+    page.className = 'print-page';
+    page.innerHTML =
+      '<div class="pkop"><div class="pkop-icon">🌾</div>'
+      +'<div><h2>Rekap LCS Screenshot — BPP Unaaha</h2>'
+      +'<p>Kabupaten Konawe &nbsp;|&nbsp; Dicetak: '+tgl+'</p></div></div>'
+      +'<div class="pname">'+esc(p.item.nama)+'</div>'
+      +'<div class="pmeta">'+esc(p.item.tanggal)+' &nbsp;·&nbsp; '+esc(p.item.waktu)+'</div>'
+      +'<div class="pimg-wrap">'+imgTag+'</div>'
+      +'<div class="pfooter">Halaman '+(i+1)+' dari '+items.length+'</div>';
+    pp.appendChild(page);
+  });
+}
+
+// ══ DOWNLOAD PER FOTO ══════════════════════════════
+function downloadFoto(idx) {
+  var r = rekapData[idx]; if (!r) return;
+  tampilDlProgress('Mengunduh foto...');
+  google.script.run
+    .withSuccessHandler(function(res){
+      sembunyiDlProgress();
+      if (!res.ok){ toast('Gagal mengunduh foto','er'); return; }
+      var a = document.createElement('a');
+      a.href = 'data:'+res.mime+';base64,'+res.base64;
+      a.download = r.nama.replace(/[^a-zA-Z0-9]/g,'_')+'_'+r.tanggal.replace(/\//g,'-')+'.jpg';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      toast('✓ Foto berhasil diunduh','ok');
+    })
+    .withFailureHandler(function(e){ sembunyiDlProgress(); toast('Error: '+e.message,'er'); })
+    .getImageBase64(r.url);
+}
+
+// ══ DOWNLOAD SEMUA FOTO ════════════════════════════
+function downloadSemuaFoto() {
+  if (!rekapData.length) { toast('Tidak ada data','er'); return; }
+  var nama = document.getElementById('f-nama').value;
+  if (!nama) { toast('Pilih salah satu nama penyuluh terlebih dahulu','er'); return; }
+  var total = rekapData.length, idx = 0;
+  function unduhBerikutnya() {
+    if (idx >= total) {
+      sembunyiDlProgress();
+      toast('✓ Semua '+total+' foto berhasil diunduh','ok');
+      return;
+    }
+    var r = rekapData[idx];
+    tampilDlProgress('Mengunduh foto '+(idx+1)+' dari '+total+' — '+r.tanggal);
+    google.script.run
+      .withSuccessHandler(function(res){
+        if (res.ok) {
+          var a = document.createElement('a');
+          a.href = 'data:'+res.mime+';base64,'+res.base64;
+          a.download = r.nama.replace(/[^a-zA-Z0-9]/g,'_')+'_'+r.tanggal.replace(/\//g,'-')+'_'+(idx+1)+'.jpg';
+          document.body.appendChild(a); a.click(); document.body.removeChild(a);
+        }
+        idx++; setTimeout(unduhBerikutnya, 800);
+      })
+      .withFailureHandler(function(){ idx++; setTimeout(unduhBerikutnya, 800); })
+      .getImageBase64(r.url);
+  }
+  unduhBerikutnya();
+}
+
+function tampilDlProgress(msg) {
+  var el = document.getElementById('dl-progress');
+  el.textContent = msg; el.style.display = 'block';
+}
+function sembunyiDlProgress() {
+  document.getElementById('dl-progress').style.display = 'none';
+}
+
+// ══ ADMIN PANEL ════════════════════════════════════
+function aksesAdmin() {
+  var pin = document.getElementById('inp-pin').value;
+  if (pin !== '2026') {
+    document.getElementById('pin-error').style.display = 'block'; return;
+  }
+  adminPin = pin;
+  document.getElementById('pin-error').style.display  = 'none';
+  document.getElementById('admin-panel').style.display = 'block';
+  isiSelect('af-nama', PENYULUH, 'Semua Penyuluh');
+  muatTanggalAdmin();
+  muatAdmin();
+}
+
+function muatTanggalAdmin() {
+  google.script.run
+    .withSuccessHandler(function(res){
+      if (!res.ok) return;
+      var sel = document.getElementById('af-tgl-sel');
+      sel.innerHTML = '<option value="">Semua Tanggal</option>';
+      res.data.forEach(function(tgl){
+        var o = document.createElement('option');
+        o.value = tgl; o.textContent = tgl; sel.appendChild(o);
+      });
+      var hi = tanggalHariIni();
+      if (res.data.indexOf(hi) !== -1) sel.value = hi;
+    })
+    .getDaftarTanggal();
+}
+
+function muatAdmin() {
+  var filter = {
+    nama   : document.getElementById('af-nama').value,
+    tanggal: document.getElementById('af-tgl-sel').value
+  };
+  overlay(true,'Memuat data admin...');
+  google.script.run
+    .withSuccessHandler(function(res){
+      overlay(false);
+      if (!res.ok){ toast('Error: '+res.error,'er'); return; }
+      adminDataCache = res.data;
+      renderAdmin(res.data);
+    })
+    .withFailureHandler(function(e){ overlay(false); toast('Error: '+e.message,'er'); })
+    .getAllData(filter);
+}
+
+function resetAdmin() {
+  document.getElementById('af-nama').value    = '';
+  document.getElementById('af-tgl-sel').value = '';
+  muatAdmin();
+}
+
+function renderAdmin(data) {
+  var div = document.getElementById('admin-body');
+  if (!data.length) {
+    div.innerHTML = '<div class="empty"><div class="empty-icon">📭</div>Tidak ada data.</div>';
+    return;
+  }
+  var html = '<div class="tbl-wrap"><table>'
+    +'<thead><tr><th>#</th><th>Nama Penyuluh</th><th>Tanggal</th><th>Waktu</th><th>Hapus</th></tr></thead><tbody>';
+  data.forEach(function(r,i){
+    html += '<tr>'
+      +'<td>'+(i+1)+'</td>'
+      +'<td><strong>'+esc(r.nama)+'</strong></td>'
+      +'<td>'+esc(r.tanggal)+'</td>'
+      +'<td>'+esc(r.waktu)+'</td>'
+      +'<td><button class="btn btn-sm" style="background:#fdf2f1;color:var(--er);border:1.5px solid #f5c6c2" '
+      +'onclick="konfirmasiHapus(\''+r.id+'\','+i+',\''+esc(r.nama)+'\',\''+esc(r.tanggal)+'\')">🗑 Hapus</button></td>'
+      +'</tr>';
+  });
+  html += '</tbody></table></div>';
+  div.innerHTML = html;
+}
+
+function konfirmasiHapus(uid, idx, nama, tgl) {
+  hapusTargetUid = uid; hapusTargetIdx = idx;
+  document.getElementById('konfirm-nama').textContent = nama;
+  document.getElementById('konfirm-tgl').textContent  = tgl;
+  document.getElementById('konfirm-bg').classList.add('on');
+  document.body.style.overflow = 'hidden';
+}
+
+function batalHapus() {
+  document.getElementById('konfirm-bg').classList.remove('on');
+  document.body.style.overflow = '';
+}
+
+function eksekusiHapus() {
+  batalHapus();
+  overlay(true,'Menghapus data...');
+  google.script.run
+    .withSuccessHandler(function(res){
+      overlay(false);
+      if (res.ok) {
+        toast('✓ Data berhasil dihapus','ok');
+        muatAdmin(); muatStatus();
+      } else {
+        toast('Gagal: '+res.error,'er');
+      }
+    })
+    .withFailureHandler(function(e){ overlay(false); toast('Error: '+e.message,'er'); })
+    .hapusDataAdmin(hapusTargetUid, adminPin);
+}
+
+// ══ HELPERS ════════════════════════════════════════
+function overlay(on, msg) {
+  var el = document.getElementById('overlay');
+  el.classList.toggle('on', on);
+  if (msg) document.getElementById('ov-msg').textContent = msg;
+}
+
+function toast(msg, type) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className   = 'show '+(type||'ok');
+  clearTimeout(t._tid);
+  t._tid = setTimeout(function(){ t.className=''; }, 3000);
+}
+
+function esc(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+</script>
+</body>
+</html>
